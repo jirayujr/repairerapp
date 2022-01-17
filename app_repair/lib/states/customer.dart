@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:app_repair/bodys/show_mybooking_customer.dart';
 import 'package:app_repair/bodys/show_service_customer.dart';
 import 'package:app_repair/bodys/show_setting_customer.dart';
 import 'package:app_repair/bodys/show_message.dart';
 import 'package:app_repair/models/user_model.dart';
 import 'package:app_repair/utility/my_constant.dart';
+import 'package:app_repair/widgets/show_progress.dart';
 import 'package:app_repair/widgets/show_signout.dart';
 import 'package:app_repair/widgets/show_title.dart';
 import 'package:dio/dio.dart';
@@ -19,10 +22,7 @@ class Customer extends StatefulWidget {
 
 class _CustomerState extends State<Customer> {
   List<Widget> widgets = [
-    ShowServiceCustomer(),
-    ShowBookingCustomer(),
-    ShowMessage(),
-    ShowSettingCustomer(),
+    
   ];
   int indexWidget = 0;
   UserModel? userModel;
@@ -38,7 +38,20 @@ class _CustomerState extends State<Customer> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = preferences.getString('id')!;
     print('## id login ==>$id');
-  
+    String apiGetUserWhereId =
+        '${MyConstant.domain}/repairer_app/getUserWhereId.php?isAdd=true&id=$id';
+    await Dio().get(apiGetUserWhereId).then((value) {
+      print('## value ==> $value');
+      for (var item in json.decode(value.data)) {
+        setState(() {
+          userModel = UserModel.fromMap(item);
+          widgets.add(ShowServiceCustomer(),);
+          widgets.add(ShowBookingCustomer(),);
+          widgets.add(ShowMessage(),);
+          widgets.add(ShowSettingCustomer(userModel: userModel!));
+        });
+      }
+    });
   }
 
   @override
@@ -46,7 +59,7 @@ class _CustomerState extends State<Customer> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ยินดีตอนรับเข้าสู่ repairer'),
+        
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -57,26 +70,13 @@ class _CustomerState extends State<Customer> {
           ),
         ),
       ),
-      drawer: Drawer(
+      drawer: widgets.length ==0 ?  SizedBox():Drawer(
         child: Stack(
           children: [
             ShowSignOut(),
             Column(
               children: [
-                UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.yellow.shade900,
-                          Colors.yellowAccent.shade700
-                        ],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                    ),
-                    accountName: Text(
-                        userModel == null ? 'Name ' : userModel!.firstname),
-                    accountEmail: null),
+                buildHeader(),
                 menuShowService(),
                 menuShowMyBooking(),
                 menuMessage(),
@@ -86,9 +86,28 @@ class _CustomerState extends State<Customer> {
           ],
         ),
       ),
-      body: widgets[indexWidget],
+      body: widgets.length == 0 ? ShowProgress():widgets[indexWidget],
       backgroundColor: Colors.amber.shade900,
     );
+  }
+
+  UserAccountsDrawerHeader buildHeader() {
+    return UserAccountsDrawerHeader(
+        currentAccountPicture: CircleAvatar(
+          backgroundImage:
+              NetworkImage('${MyConstant.domain}${userModel?.avatar}'),
+        ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.yellow.shade900, Colors.yellowAccent.shade700],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+          ),
+        ),
+        accountName: Text(userModel == null
+            ? 'Name'
+            : userModel!.firstname + '  ' + userModel!.lastname),
+        accountEmail: Text(userModel == null ? 'Type' : userModel!.type));
   }
 
   ListTile menuShowService() {
@@ -116,7 +135,7 @@ class _CustomerState extends State<Customer> {
           Navigator.pop(context);
         });
       },
-      leading: Icon(Icons.menu_book_outlined ),
+      leading: Icon(Icons.menu_book_outlined),
       title: ShowTitle(title: 'My Booking', textStyle: MyConstant().h2Style()),
       subtitle: ShowTitle(
         title: 'รายการ',
@@ -133,7 +152,7 @@ class _CustomerState extends State<Customer> {
           Navigator.pop(context);
         });
       },
-      leading: Icon(Icons.message_outlined ),
+      leading: Icon(Icons.message_outlined),
       title: ShowTitle(title: 'Message', textStyle: MyConstant().h2Style()),
       subtitle: ShowTitle(
         title: 'ข้อความ',
@@ -150,7 +169,7 @@ class _CustomerState extends State<Customer> {
           Navigator.pop(context);
         });
       },
-      leading: Icon(Icons.settings_applications_outlined ),
+      leading: Icon(Icons.settings_applications_outlined),
       title: ShowTitle(title: 'Setting', textStyle: MyConstant().h2Style()),
       subtitle: ShowTitle(
         title: 'ตั้งค่า',

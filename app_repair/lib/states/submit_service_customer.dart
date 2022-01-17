@@ -149,7 +149,7 @@ class _SubmitServiceState extends State<SubmitService> {
                           });
                         }
                       },
-                      child: Text('Date Picker')),
+                      child: Text('เลือกวันที่')),
                   buildTitle(
                       '${_dateTime.day}/${_dateTime.month}/${_dateTime.year}'),
                   ElevatedButton(
@@ -166,7 +166,7 @@ class _SubmitServiceState extends State<SubmitService> {
                           });
                         }
                       },
-                      child: Text('Time Picker')),
+                      child: Text('เลือกเวลา')),
                   buildTitle('${_timeOfDay.hour}:${_timeOfDay.minute}'),
                   buildTitle2('เลือกประเภทช่าง'),
                   buildSelectTech(),

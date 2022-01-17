@@ -1,8 +1,9 @@
-import 'package:app_repair/bodys/submit_service_customer.dart';
-import 'package:app_repair/bodys/search_service.dart';
+import 'package:app_repair/states/submit_service_customer.dart';
+import 'package:app_repair/states/search_service.dart';
 import 'package:app_repair/states/authen.dart';
 import 'package:app_repair/states/create_account.dart';
 import 'package:app_repair/states/customer.dart';
+import 'package:app_repair/states/edit_profile_customer.dart';
 import 'package:app_repair/states/technician.dart';
 import 'package:app_repair/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ final Map<String, WidgetBuilder> map = {
   '/technician': (BuildContext context) => Technician(),
   '/searchservice': (BuildContext context) => SearchService(),
   '/submitservice': (BuildContext context) => SubmitService(),
-  
+  '/editprofilecustomer': (BuildContext context) => EditProfileCustomer(),
 };
 
 String? initialRoute;
