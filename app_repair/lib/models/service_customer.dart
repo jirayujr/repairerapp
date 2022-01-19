@@ -13,6 +13,8 @@ class ServiceCustomer {
   final String lat;
   final String lng;
   final String id_customer;
+  final String time;
+  final String date;
   ServiceCustomer({
     required this.id,
     required this.firstname,
@@ -26,6 +28,8 @@ class ServiceCustomer {
     required this.lat,
     required this.lng,
     required this.id_customer,
+    required this.time,
+    required this.date,
   });
 
   ServiceCustomer copyWith({
@@ -41,6 +45,8 @@ class ServiceCustomer {
     String? lat,
     String? lng,
     String? id_customer,
+    String? time,
+    String? date,
   }) {
     return ServiceCustomer(
       id: id ?? this.id,
@@ -55,6 +61,8 @@ class ServiceCustomer {
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       id_customer: id_customer ?? this.id_customer,
+      time: time ?? this.time,
+      date:  date ?? this.date,
     );
   }
 
@@ -72,6 +80,8 @@ class ServiceCustomer {
       'lat': lat,
       'lng': lng,
       'id_customer': id_customer,
+      'time': time,
+      'date': date,
     };
   }
 
@@ -89,6 +99,8 @@ class ServiceCustomer {
       lat: map['lat'] ?? '',
       lng: map['lng'] ?? '',
       id_customer: map['id_customer'] ?? '',
+      time: map['time']?? '',
+      date: map['date']?? '',
     );
   }
 
@@ -98,7 +110,7 @@ class ServiceCustomer {
 
   @override
   String toString() {
-    return 'ServiceCustomer(id: $id, firstname: $firstname, lastname: $lastname, phone: $phone, select_time_date: $select_time_date, type_technician: $type_technician, detail: $detail, images: $images, address: $address, lat: $lat, lng: $lng, id_customer: $id_customer)';
+    return 'ServiceCustomer(id: $id, firstname: $firstname, lastname: $lastname, phone: $phone, select_time_date: $select_time_date, type_technician: $type_technician, detail: $detail, images: $images, address: $address, lat: $lat, lng: $lng, id_customer: $id_customer,time:$time,date$date)';
   }
 
   @override
@@ -117,7 +129,10 @@ class ServiceCustomer {
       other.address == address &&
       other.lat == lat &&
       other.lng == lng &&
-      other.id_customer == id_customer;
+      other.id_customer == id_customer&&
+      other.time == time &&
+      other.time == date
+      ;
   }
 
   @override
@@ -133,6 +148,9 @@ class ServiceCustomer {
       address.hashCode ^
       lat.hashCode ^
       lng.hashCode ^
-      id_customer.hashCode;
+      id_customer.hashCode^
+      time.hashCode ^
+      date.hashCode 
+      ;
   }
 }

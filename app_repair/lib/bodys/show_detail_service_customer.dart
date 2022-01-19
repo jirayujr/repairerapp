@@ -3,6 +3,7 @@ import 'package:app_repair/utility/my_constant.dart';
 import 'package:app_repair/widgets/show_title.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ShowDetailServiceCustomer extends StatefulWidget {
   final ServiceCustomer serviceCustomerModel;
@@ -34,7 +35,9 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
         serviceCustomerModel!.firstname + '  ' + serviceCustomerModel!.lastname;
     print('## images form mySQL ==> ${serviceCustomerModel?.images}');
     //convertStirngToArray();
-    dateController.text = serviceCustomerModel!.select_time_date;
+    dateController.text =
+        serviceCustomerModel!.date + ' ' + '(' + serviceCustomerModel!.time+')';
+    ;
     detailController.text = serviceCustomerModel!.detail;
     addressController.text = serviceCustomerModel!.address;
     phoneController.text = serviceCustomerModel!.phone;
@@ -77,7 +80,37 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
                 buildshowname(constraints),
                 buildphone(constraints),
                 buildaddress(constraints),
-                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 16),
+                      width: constraints.maxWidth * 0.75,
+                      height: constraints.maxWidth * 0.75,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse(serviceCustomerModel!.lat),
+                            double.parse(serviceCustomerModel!.lng),
+                          ),
+                          zoom: 16,
+                        ),
+                        markers: <Marker>[
+                          Marker(
+                              markerId: MarkerId('id'),
+                              position: LatLng(
+                                double.parse(serviceCustomerModel!.lat),
+                                double.parse(serviceCustomerModel!.lng),
+                              ),
+                              infoWindow: InfoWindow(
+                                  title: 'You Here ',
+                                  snippet:
+                                      'lat = ${serviceCustomerModel!.lat}, lng = ${serviceCustomerModel!.lng}')),
+                        ].toSet(),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -216,7 +249,6 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
     );
   }
 
-  
   Row buildphone(BoxConstraints constraints) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,

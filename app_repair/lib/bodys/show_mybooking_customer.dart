@@ -140,7 +140,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                       height: 5,
                     ),
                     Text(
-                      ServiceCustomerModels[index].select_time_date +
+                      ServiceCustomerModels[index].date +
                           ',' +
                           ServiceCustomerModels[index].detail,
                       style: MyConstant().h3BlackStyle(),
@@ -154,4 +154,6 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
       ),
     );
   }
+
+  
 }
