@@ -15,22 +15,23 @@ if (!$link->set_charset("utf8")) {
     exit();
 	}
 
-
 if (isset($_GET)) {
 	if ($_GET['isAdd'] == 'true') {
-			
-		$id = $_GET['id'];		
+				
 		$firstname = $_GET['firstname'];
 		$lastname = $_GET['lastname'];
-		$address = $_GET['address'];
 		$phone = $_GET['phone'];
-		$avatar = $_GET['avatar'];
+		$select_time_date = $_GET['select_time_date'];
+		$type_technician = $_GET['type_technician'];
+		$detail = $_GET['detail'];
+		$images = $_GET['images'];
+		$address = $_GET['address'];
 		$lat = $_GET['lat'];
 		$lng = $_GET['lng'];
 		
 		
-							
-		$sql = "UPDATE `user` SET `firstname` = '$firstname',`lastname` = '$lastname', `address` = '$address', `phone` = '$phone', `avatar` = '$avatar', `lat` = '$lat', `lng` = '$lng' WHERE id = '$id'";
+				
+		$sql = "INSERT INTO `submitservice_customer`(`id`, `firstname`, `lastname`, `phone`, `select_time_date`, `type_technician`, `detail`, `images`, `address`, `lat`, `lng`) VALUES (Null,'$firstname','$lastname','$phone','$select_time_date','$type_technician','$detail','$images','$address','$lat','$lng')";
 
 		$result = mysqli_query($link, $sql);
 
@@ -43,5 +44,5 @@ if (isset($_GET)) {
 	} else echo "TEST";
    
 }
-
 	mysqli_close($link);
+?>

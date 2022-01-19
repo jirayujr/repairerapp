@@ -58,6 +58,7 @@ class _CustomerState extends State<Customer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(''),
         centerTitle: true,
         
         flexibleSpace: Container(

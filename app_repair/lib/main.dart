@@ -17,6 +17,7 @@ final Map<String, WidgetBuilder> map = {
   '/searchservice': (BuildContext context) => SearchService(),
   '/submitservice': (BuildContext context) => SubmitService(),
   '/editprofilecustomer': (BuildContext context) => EditProfileCustomer(),
+  
 };
 
 String? initialRoute;

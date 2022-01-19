@@ -33,7 +33,7 @@ if (isset($_GET)) {
 
 		} //if
 
-	} else echo "Welcome Master UNG";	// if2
+	} else echo "TEST";	// if2
    
 }	// if1
 

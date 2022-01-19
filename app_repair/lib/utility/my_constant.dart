@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
 //  General
   static String appName = 'Repairer';
-  static String domain = 'https://eec9-171-4-248-130.ngrok.io';
+  static String domain = 'https://627e-171-4-248-130.ngrok.io';
 
 //  Route
 
@@ -14,6 +14,7 @@ class MyConstant {
   static String routeSearchService = '/searchservice';
   static String routeSubmitService = '/submitservice';
   static String routeEditProfileCustomer = '/editprofilecustomer';
+  
 
 // Images
   static String logo = 'images/logo.png';
@@ -74,6 +75,12 @@ class MyConstant {
   TextStyle h3BlackStyle() => TextStyle(
         fontSize: 12,
         color: Colors.black,
+        fontWeight: FontWeight.normal,
+      );
+      
+  TextStyle h3GrayStyle() => TextStyle(
+        fontSize: 12,
+        color: Colors.grey,
         fontWeight: FontWeight.normal,
       );
 

@@ -40,7 +40,7 @@ if (isset($_GET)) {
 			echo "false";
 		}
 
-	} else echo "Welcome JR ";
+	} else echo "TEST ";
    
 }
 	mysqli_close($link);
