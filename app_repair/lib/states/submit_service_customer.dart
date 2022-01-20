@@ -35,7 +35,7 @@ class _SubmitServiceState extends State<SubmitService> {
   ];
 
   final formkey = GlobalKey<FormState>();
-  String? value;
+  String? value ;
   List<File?> files = [];
   File? file;
   double? lat, lng;

@@ -170,10 +170,10 @@ class _CustomerState extends State<Customer> {
           Navigator.pop(context);
         });
       },
-      leading: Icon(Icons.settings_applications_outlined),
-      title: ShowTitle(title: 'Setting', textStyle: MyConstant().h2Style()),
+      leading: Icon(Icons.admin_panel_settings),
+      title: ShowTitle(title: 'Profile', textStyle: MyConstant().h2Style()),
       subtitle: ShowTitle(
-        title: 'ตั้งค่า',
+        title: 'โปรไฟล์',
         textStyle: MyConstant().h3Style(),
       ),
     );

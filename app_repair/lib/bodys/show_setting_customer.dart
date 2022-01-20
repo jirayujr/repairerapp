@@ -45,6 +45,7 @@ class _ShowSettingCustomerState extends State<ShowSettingCustomer> {
     return Scaffold(
         backgroundColor: Colors.orange.shade100,
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.orange.shade800,
           child: Icon(Icons.edit),
           onPressed: () =>
               Navigator.pushNamed(context, MyConstant.routeEditProfileCustomer)
@@ -78,23 +79,7 @@ class _ShowSettingCustomerState extends State<ShowSettingCustomer> {
                       ),
                     ],
                   ),
-                  ShowTitle(
-                      title: 'ที่อยู่ :', textStyle: MyConstant().h2Style()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: constraints.maxWidth * 0.6,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ShowTitle(
-                            title: userModel!.address,
-                            textStyle: MyConstant().h2BlackStyle(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  
                   ShowTitle(
                       title: 'เบอร์ : ', textStyle: MyConstant().h2Style()),
                   Row(
@@ -127,6 +112,23 @@ class _ShowSettingCustomerState extends State<ShowSettingCustomer> {
                         child: CachedNetworkImage(
                           imageUrl: '${MyConstant.domain}${userModel!.avatar}',
                           placeholder: (context, url) => ShowProgress(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  ShowTitle(
+                      title: 'ที่อยู่ :', textStyle: MyConstant().h2Style()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth * 0.6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ShowTitle(
+                            title: userModel!.address,
+                            textStyle: MyConstant().h2BlackStyle(),
+                          ),
                         ),
                       ),
                     ],

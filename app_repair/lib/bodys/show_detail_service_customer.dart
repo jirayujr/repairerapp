@@ -63,58 +63,73 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
           ),
           title: Text('รายละเอียดการซ่อม'),
         ),
-        body: LayoutBuilder(
-          builder: (context, constraints) => Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildshowdate(constraints),
-                // Row(
-                //   children: [
-                //     CachedNetworkImage(
-                //         imageUrl:
-                //             '${MyConstant.domain}/repairer_app/${pathImages[0]}'),
-                //   ],
-                // ),
-                buildshowdetail(constraints),
-                buildshowname(constraints),
-                buildphone(constraints),
-                buildaddress(constraints),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 16),
-                      width: constraints.maxWidth * 0.75,
-                      height: constraints.maxWidth * 0.75,
-                      child: GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            double.parse(serviceCustomerModel!.lat),
-                            double.parse(serviceCustomerModel!.lng),
+        body: SingleChildScrollView(
+          child: LayoutBuilder(
+            builder: (context, constraints) => Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildshowdate(constraints),
+                  // Row(
+                  //   children: [
+                  //     CachedNetworkImage(
+                  //         imageUrl:
+                  //             '${MyConstant.domain}/repairer_app/${pathImages[0]}'),
+                  //   ],
+                  // ),
+                  buildshowdetail(constraints),
+                  buildshowname(constraints),
+                  buildphone(constraints),
+                  buildaddress(constraints),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 16),
+                        width: constraints.maxWidth * 0.9,
+                        height: constraints.maxWidth * 0.6,
+                        child: GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                              double.parse(serviceCustomerModel!.lat),
+                              double.parse(serviceCustomerModel!.lng),
+                            ),
+                            zoom: 16,
                           ),
-                          zoom: 16,
+                          markers: <Marker>[
+                            Marker(
+                                markerId: MarkerId('id'),
+                                position: LatLng(
+                                  double.parse(serviceCustomerModel!.lat),
+                                  double.parse(serviceCustomerModel!.lng),
+                                ),
+                                infoWindow: InfoWindow(
+                                    title: 'You Here ',
+                                    snippet:
+                                        'lat = ${serviceCustomerModel!.lat}, lng = ${serviceCustomerModel!.lng}')),
+                          ].toSet(),
                         ),
-                        markers: <Marker>[
-                          Marker(
-                              markerId: MarkerId('id'),
-                              position: LatLng(
-                                double.parse(serviceCustomerModel!.lat),
-                                double.parse(serviceCustomerModel!.lng),
-                              ),
-                              infoWindow: InfoWindow(
-                                  title: 'You Here ',
-                                  snippet:
-                                      'lat = ${serviceCustomerModel!.lat}, lng = ${serviceCustomerModel!.lng}')),
-                        ].toSet(),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  buildCancelButton(constraints),
+        
+                ],
+              ),
             ),
           ),
         ));
+  }
+  Container buildCancelButton(BoxConstraints constraints) {
+    return Container(
+      width: constraints.maxHeight * 0.75,
+      child: ElevatedButton(
+        style: MyConstant().myButtonStyle(),
+        onPressed: () {print('##  ==> click cancel');
+        },
+        child: Text('ยกเลิก'),
+      ),
+    );
   }
 
   Row buildshowdate(BoxConstraints constraints) {

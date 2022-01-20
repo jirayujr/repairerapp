@@ -96,12 +96,12 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
             ),
           ),
         ),
-        title: Text('Edit Profile'),
+        title: Text('แก้ไขข้อมูลส่วนตัว'),
         actions: [
           IconButton(
-            onPressed: () => processEditProfileCustomer(),
+            onPressed: () => processEditProfileSeller(),
             icon: Icon(Icons.edit),
-            tooltip: 'Edit Profile Customer',
+            tooltip: 'Edit Profile ',
           ),
         ],
       ),
@@ -114,16 +114,16 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
             child: ListView(
               padding: EdgeInsets.all(16),
               children: [
-                buildTitle('General :'),
+                buildTitle('ข้อมูลผู้ใช้'),
                 buildFirstName(constraints),
                 buildLastName(constraints),
-                buildAddress(constraints),
                 buildPhone(constraints),
-                buildTitle('Avatar :'),
+                buildTitle('รูปโปรไฟล์ :'),
                 buildAvatar(constraints),
+                buildAddress(constraints),
                 buildTitle('Location :'),
                 buildMap(constraints),
-                buildButtonEditProfile(),
+                buildButtonEditProfile()
               ],
             ),
           ),
@@ -132,7 +132,7 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
     );
   }
 
-  Future<Null> processEditProfileCustomer() async {
+  Future<Null> processEditProfileSeller() async {
     print('processEditProfile Work');
 
     MyDialog().showProgressDialog(context);
@@ -143,7 +143,7 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
         editValueToMySQL(userModel!.avatar);
       } else {
         String apiSaveAvatar =
-            '${MyConstant.domain}/repaier_app/saveAvatar.php';
+            '${MyConstant.domain}/repairer_app/saveAvatar.php';
 
         List<String> nameAvatars = userModel!.avatar.split('/');
         String nameFile = nameAvatars[nameAvatars.length - 1];
@@ -167,15 +167,18 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
   Future<Null> editValueToMySQL(String pathAvatar) async {
     print('## pathAvatar ==> $pathAvatar');
     String apiEditProfile =
-        '${MyConstant.domain}/repairer_app/editProfileCustomerWhereId.php?isAdd=true&id=${userModel!.id}&firstname=${firstnameController.text}&lastname=${lastnameController.text}&address=${addressController.text}&phone=${phoneController.text}&avatar=$pathAvatar&lat=${latLng!.latitude}&long=${latLng!.longitude}';
+        '${MyConstant.domain}/repairer_app/editProfileCustomerWhereId.php?isAdd=true&id=${userModel!.id}&firstname=${firstnameController.text}&lastname=${lastnameController.text}&address=${addressController.text}&phone=${phoneController.text}&avatar=$pathAvatar&lat=${latLng!.latitude}&lng=${latLng!.longitude}';
+    await Dio().get(apiEditProfile).then((value) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    });
   }
 
   ElevatedButton buildButtonEditProfile() => ElevatedButton.icon(
-        onPressed: () => processEditProfileCustomer(),
-        icon: Icon(Icons.edit),
-        label: Text('แก้ไขข้อมูล'),
-        style: ElevatedButton.styleFrom(primary: Colors.black),
-      );
+      onPressed: () => processEditProfileSeller(),
+      icon: Icon(Icons.edit),
+      style: ElevatedButton.styleFrom(primary: Colors.black),
+      label: Text('แก้ไขข้อมูล'));
 
   Row buildMap(BoxConstraints constraints) {
     return Row(
@@ -242,8 +245,8 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
                 ),
               ),
               Container(
-                width: constraints.maxWidth * 0.6,
-                height: constraints.maxWidth * 0.6,
+                width: constraints.maxWidth * 0.5,
+                height: constraints.maxWidth * 0.5,
                 child: userModel == null
                     ? ShowProgress()
                     : Padding(
@@ -282,18 +285,18 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 16),
-          width: constraints.maxWidth * 0.6,
+          width: constraints.maxWidth * 0.75,
           child: TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please Fill Name';
+                return 'Please Fill FirstName';
               } else {
                 return null;
               }
             },
             controller: firstnameController,
             decoration: InputDecoration(
-              labelText: 'Name :',
+              labelText: 'FirstName :',
               border: OutlineInputBorder(),
             ),
           ),
@@ -308,11 +311,11 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 16),
-          width: constraints.maxWidth * 0.6,
+          width: constraints.maxWidth * 0.75,
           child: TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please Fill Name';
+                return 'Please Fill LastName';
               } else {
                 return null;
               }
@@ -334,7 +337,7 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 16),
-          width: constraints.maxWidth * 0.6,
+          width: constraints.maxWidth * 0.75,
           child: TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
@@ -361,7 +364,7 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
       children: [
         Container(
           margin: EdgeInsets.symmetric(vertical: 16),
-          width: constraints.maxWidth * 0.6,
+          width: constraints.maxWidth * 0.75,
           child: TextFormField(
             keyboardType: TextInputType.phone,
             validator: (value) {
