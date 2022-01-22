@@ -30,17 +30,17 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
     // TODO: implement initState
 
     serviceCustomerModel = widget.serviceCustomerModel;
-    print('## ชื่อที่ต้องการโชว์ ==> ${serviceCustomerModel!.firstname}');
-    nameController.text =
-        serviceCustomerModel!.firstname + '  ' + serviceCustomerModel!.lastname;
-    print('## images form mySQL ==> ${serviceCustomerModel?.images}');
+    //print('## ชื่อที่ต้องการโชว์ ==> ${serviceCustomerModel!.firstname}');
+    //nameController.text =
+      //  serviceCustomerModel!.firstname + '  ' + serviceCustomerModel!.lastname;
+    print('## images form mySQL ==> ${serviceCustomerModel?.image}');
     //convertStirngToArray();
     dateController.text =
-        serviceCustomerModel!.date + ' ' + '(' + serviceCustomerModel!.time+')';
+        serviceCustomerModel!.date1 + ' ' + '(' + serviceCustomerModel!.time1+')';
     ;
-    detailController.text = serviceCustomerModel!.detail;
-    addressController.text = serviceCustomerModel!.address;
-    phoneController.text = serviceCustomerModel!.phone;
+    detailController.text = serviceCustomerModel!.identifySymptoms;
+    addressController.text = serviceCustomerModel!.address1;
+    //phoneController.text = serviceCustomerModel!.phone;
   }
 
   // void convertStirngToArray() {
@@ -63,6 +63,7 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
           ),
           title: Text('รายละเอียดการซ่อม'),
         ),
+        backgroundColor: Colors.orange.shade100,
         body: SingleChildScrollView(
           child: LayoutBuilder(
             builder: (context, constraints) => Center(

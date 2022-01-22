@@ -2,105 +2,75 @@ import 'dart:convert';
 
 class ServiceCustomer {
   final String id;
-  final String firstname;
-  final String lastname;
-  final String phone;
-  final String select_time_date;
-  final String type_technician;
-  final String detail;
-  final String images;
-  final String address;
+  final String date1;
+  final String time1;
+  final String typeRepairer;
+  final String identifySymptoms;
+  final String image;
+  final String address1;
   final String lat;
   final String lng;
-  final String id_customer;
-  final String time;
-  final String date;
   ServiceCustomer({
     required this.id,
-    required this.firstname,
-    required this.lastname,
-    required this.phone,
-    required this.select_time_date,
-    required this.type_technician,
-    required this.detail,
-    required this.images,
-    required this.address,
+    required this.date1,
+    required this.time1,
+    required this.typeRepairer,
+    required this.identifySymptoms,
+    required this.image,
+    required this.address1,
     required this.lat,
     required this.lng,
-    required this.id_customer,
-    required this.time,
-    required this.date,
   });
 
   ServiceCustomer copyWith({
     String? id,
-    String? firstname,
-    String? lastname,
-    String? phone,
-    String? select_time_date,
-    String? type_technician,
-    String? detail,
-    String? images,
-    String? address,
+    String? date1,
+    String? time1,
+    String? typeRepairer,
+    String? identifySymptoms,
+    String? image,
+    String? address1,
     String? lat,
     String? lng,
-    String? id_customer,
-    String? time,
-    String? date,
   }) {
     return ServiceCustomer(
       id: id ?? this.id,
-      firstname: firstname ?? this.firstname,
-      lastname: lastname ?? this.lastname,
-      phone: phone ?? this.phone,
-      select_time_date: select_time_date ?? this.select_time_date,
-      type_technician: type_technician ?? this.type_technician,
-      detail: detail ?? this.detail,
-      images: images ?? this.images,
-      address: address ?? this.address,
+      date1: date1 ?? this.date1,
+      time1: time1 ?? this.time1,
+      typeRepairer: typeRepairer ?? this.typeRepairer,
+      identifySymptoms: identifySymptoms ?? this.identifySymptoms,
+      image: image ?? this.image,
+      address1: address1 ?? this.address1,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
-      id_customer: id_customer ?? this.id_customer,
-      time: time ?? this.time,
-      date:  date ?? this.date,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'firstname': firstname,
-      'lastname': lastname,
-      'phone': phone,
-      'select_time_date': select_time_date,
-      'type_technician': type_technician,
-      'detail': detail,
-      'images': images,
-      'address': address,
+      'date1': date1,
+      'time1': time1,
+      'typeRepairer': typeRepairer,
+      'identifySymptoms': identifySymptoms,
+      'image': image,
+      'address1': address1,
       'lat': lat,
       'lng': lng,
-      'id_customer': id_customer,
-      'time': time,
-      'date': date,
     };
   }
 
   factory ServiceCustomer.fromMap(Map<String, dynamic> map) {
     return ServiceCustomer(
       id: map['id'] ?? '',
-      firstname: map['firstname'] ?? '',
-      lastname: map['lastname'] ?? '',
-      phone: map['phone'] ?? '',
-      select_time_date: map['select_time_date'] ?? '',
-      type_technician: map['type_technician'] ?? '',
-      detail: map['detail'] ?? '',
-      images: map['images'] ?? '',
-      address: map['address'] ?? '',
+      date1: map['date1'] ?? '',
+      time1: map['time1'] ?? '',
+      typeRepairer: map['typeRepairer'] ?? '',
+      identifySymptoms: map['identifySymptoms'] ?? '',
+      image: map['image'] ?? '',
+      address1: map['address1'] ?? '',
       lat: map['lat'] ?? '',
       lng: map['lng'] ?? '',
-      id_customer: map['id_customer'] ?? '',
-      time: map['time']?? '',
-      date: map['date']?? '',
     );
   }
 
@@ -110,7 +80,7 @@ class ServiceCustomer {
 
   @override
   String toString() {
-    return 'ServiceCustomer(id: $id, firstname: $firstname, lastname: $lastname, phone: $phone, select_time_date: $select_time_date, type_technician: $type_technician, detail: $detail, images: $images, address: $address, lat: $lat, lng: $lng, id_customer: $id_customer,time:$time,date$date)';
+    return 'ServiceCustomer(id: $id, date1: $date1, time1: $time1, typeRepairer: $typeRepairer, identifySymptoms: $identifySymptoms, image: $image, address1: $address1, lat: $lat, lng: $lng)';
   }
 
   @override
@@ -119,38 +89,26 @@ class ServiceCustomer {
   
     return other is ServiceCustomer &&
       other.id == id &&
-      other.firstname == firstname &&
-      other.lastname == lastname &&
-      other.phone == phone &&
-      other.select_time_date == select_time_date &&
-      other.type_technician == type_technician &&
-      other.detail == detail &&
-      other.images == images &&
-      other.address == address &&
+      other.date1 == date1 &&
+      other.time1 == time1 &&
+      other.typeRepairer == typeRepairer &&
+      other.identifySymptoms == identifySymptoms &&
+      other.image == image &&
+      other.address1 == address1 &&
       other.lat == lat &&
-      other.lng == lng &&
-      other.id_customer == id_customer&&
-      other.time == time &&
-      other.time == date
-      ;
+      other.lng == lng;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      firstname.hashCode ^
-      lastname.hashCode ^
-      phone.hashCode ^
-      select_time_date.hashCode ^
-      type_technician.hashCode ^
-      detail.hashCode ^
-      images.hashCode ^
-      address.hashCode ^
+      date1.hashCode ^
+      time1.hashCode ^
+      typeRepairer.hashCode ^
+      identifySymptoms.hashCode ^
+      image.hashCode ^
+      address1.hashCode ^
       lat.hashCode ^
-      lng.hashCode ^
-      id_customer.hashCode^
-      time.hashCode ^
-      date.hashCode 
-      ;
+      lng.hashCode;
   }
 }

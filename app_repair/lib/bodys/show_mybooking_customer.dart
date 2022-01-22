@@ -37,7 +37,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = preferences.getString('id')!;
     String apiGetServiceWhereCustomer =
-        '${MyConstant.domain}/repairer_app/getServiceWhereUser.php?isAdd=true&id_customer=$id';
+        '${MyConstant.domain}/repairer_app/getServiceWhereUser.php?isAdd=true&id=$id';
     await Dio().get(apiGetServiceWhereCustomer).then((value) {
       print('value===>$value');
 
@@ -51,7 +51,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
         //Have Data
         for (var item in json.decode(value.data)) {
           ServiceCustomer model = ServiceCustomer.fromMap(item);
-          print('รายละเอียด ===> ${model.detail}');
+          print('รายละเอียด ===> ${model.identifySymptoms}');
 
           setState(() {
             load = false;
@@ -114,7 +114,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                       children: [
                         Text(
                           'บริการ' +
-                              ServiceCustomerModels[index].type_technician,
+                              ServiceCustomerModels[index].typeRepairer,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -140,9 +140,9 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                       height: 5,
                     ),
                     Text(
-                      ServiceCustomerModels[index].date +
+                      ServiceCustomerModels[index].date1 +
                           ',' +
-                          ServiceCustomerModels[index].detail,
+                          ServiceCustomerModels[index].identifySymptoms,
                       style: MyConstant().h3BlackStyle(),
                     )
                   ],
