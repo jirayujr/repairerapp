@@ -113,9 +113,7 @@ class _AuthenState extends State<Authen> {
             preferences.setString('id', model.id);
             preferences.setString('type', type);
             preferences.setString('user', model.user);
-            preferences.setString('firstname', model.firstname);
-            preferences.setString('lastname', model.lastname);
-            preferences.setString('phone', model.phone);
+            preferences.setString('name', model.firstname);
 
             switch (type) {
               case 'user':
@@ -123,8 +121,8 @@ class _AuthenState extends State<Authen> {
                     context, MyConstant.routeCustomerService, (route) => false);
                 break;
               case 'technician':
-                Navigator.pushNamedAndRemoveUntil(context,
-                    MyConstant.routeTechnicianService, (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,MyConstant.routeTechnicianService, (route) => false);
                 break;
               default:
             }

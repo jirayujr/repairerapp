@@ -169,7 +169,7 @@ class _EditProfileCustomerState extends State<EditProfileCustomer> {
     String apiEditProfile =
         '${MyConstant.domain}/repairer_app/editProfileCustomerWhereId.php?isAdd=true&id=${userModel!.id}&firstname=${firstnameController.text}&lastname=${lastnameController.text}&address=${addressController.text}&phone=${phoneController.text}&avatar=$pathAvatar&lat=${latLng!.latitude}&lng=${latLng!.longitude}';
     await Dio().get(apiEditProfile).then((value) {
-      Navigator.pop(context);
+      
       Navigator.pop(context);
     });
   }

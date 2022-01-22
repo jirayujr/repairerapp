@@ -1,3 +1,4 @@
+import 'package:app_repair/bodys/show_mybooking_customer.dart';
 import 'package:app_repair/states/submit_service_customer.dart';
 import 'package:app_repair/states/search_service.dart';
 import 'package:app_repair/states/authen.dart';
@@ -17,6 +18,7 @@ final Map<String, WidgetBuilder> map = {
   '/searchservice': (BuildContext context) => SearchService(),
   '/submitservice': (BuildContext context) => SubmitService(),
   '/editprofilecustomer': (BuildContext context) => EditProfileCustomer(),
+  '/showbookingcustomer': (BuildContext context) => ShowBookingCustomer(),
   
 };
 
