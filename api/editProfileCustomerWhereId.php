@@ -45,3 +45,4 @@ if (isset($_GET)) {
 }
 
 	mysqli_close($link);
+?>

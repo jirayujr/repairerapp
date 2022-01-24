@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShowSettingTechnician extends StatefulWidget {
   final UserModel userModel;
@@ -42,9 +43,12 @@ class _ShowSettingTechnicianState extends State<ShowSettingTechnician> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
+      
         backgroundColor: Colors.orange.shade100,
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.orange.shade800,
           child: Icon(Icons.edit),
           onPressed: () =>
               Navigator.pushNamed(context, MyConstant.routeEditProfileCustomer)
@@ -58,7 +62,7 @@ class _ShowSettingTechnicianState extends State<ShowSettingTechnician> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ShowTitle(
-                      title: 'ข้อมูลผู้ใช้',
+                      title: 'ข้อมูลช่าง',
                       textStyle: TextStyle(
                         fontSize: 30,
                         color: Colors.black,
@@ -168,6 +172,8 @@ class _ShowSettingTechnicianState extends State<ShowSettingTechnician> {
               ),
             ),
           ),
-        ));
+        ),
+        );       
   }
+
 }

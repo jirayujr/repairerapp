@@ -36,8 +36,8 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
     print('## images form mySQL ==> ${serviceCustomerModel?.image}');
     //convertStirngToArray();
     dateController.text =
-        serviceCustomerModel!.date1 + ' ' + '(' + serviceCustomerModel!.time1+')';
-    ;
+        serviceCustomerModel!.date1 ;
+    
     detailController.text = serviceCustomerModel!.identifySymptoms;
     addressController.text = serviceCustomerModel!.address1;
     //phoneController.text = serviceCustomerModel!.phone;

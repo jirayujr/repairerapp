@@ -48,6 +48,7 @@ dependencies:
   omise_flutter: ^0.1.6
   http: ^0.13.4
   intl: ^0.17.0
+  bottom_navigation_bar: ^1.0.1
 
 
 

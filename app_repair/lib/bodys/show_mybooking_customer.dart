@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:app_repair/bodys/show_detail_service_customer.dart';
-import 'package:app_repair/bodys/show_service_customer.dart';
+
 import 'package:app_repair/models/service_customer.dart';
 import 'package:app_repair/utility/my_constant.dart';
 import 'package:app_repair/widgets/show_progress.dart';
 import 'package:app_repair/widgets/show_title.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,45 +23,7 @@ bool? haveData;
 List<ServiceCustomer> ServiceCustomerModels = [];
 
 class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadServiceFromAPI();
-  }
 
-  Future<Null> loadServiceFromAPI() async {
-    if (ServiceCustomerModels.length != 0) {
-      ServiceCustomerModels.clear();
-    } else {}
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String id = preferences.getString('id')!;
-    String apiGetServiceWhereCustomer =
-        '${MyConstant.domain}/repairer_app/getServiceWhereUser.php?isAdd=true&id=$id';
-    await Dio().get(apiGetServiceWhereCustomer).then((value) {
-      print('value===>$value');
-
-      if (value.toString() == 'null') {
-        // No Data
-        setState(() {
-          load = false;
-          haveData = false;
-        });
-      } else {
-        //Have Data
-        for (var item in json.decode(value.data)) {
-          ServiceCustomer model = ServiceCustomer.fromMap(item);
-          print('รายละเอียด ===> ${model.identifySymptoms}');
-
-          setState(() {
-            load = false;
-            haveData = true;
-            ServiceCustomerModels.add(model);
-          });
-        }
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
