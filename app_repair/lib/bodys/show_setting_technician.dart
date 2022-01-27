@@ -51,7 +51,7 @@ class _ShowSettingTechnicianState extends State<ShowSettingTechnician> {
           backgroundColor: Colors.orange.shade800,
           child: Icon(Icons.edit),
           onPressed: () =>
-              Navigator.pushNamed(context, MyConstant.routeEditProfileCustomer)
+              Navigator.pushNamed(context, MyConstant.routeEditProfileTechnician)
                   .then((value) => refreshUserModel()),
         ),
         body: LayoutBuilder(
@@ -79,6 +79,23 @@ class _ShowSettingTechnicianState extends State<ShowSettingTechnician> {
                                 '      ' +
                                 userModel!.lastname,
                             textStyle: MyConstant().h1BlackStyle()),
+                      ),
+                    ],
+                  ),
+                    ShowTitle(
+                      title: 'ประเภทช่าง :', textStyle: MyConstant().h2Style()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: constraints.maxWidth * 0.6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ShowTitle(
+                            title: userModel!.type_technician,
+                            textStyle: MyConstant().h2BlackStyle(),
+                          ),
+                        ),
                       ),
                     ],
                   ),

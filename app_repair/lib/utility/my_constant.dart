@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class MyConstant {
 //  General
   static String appName = 'Repairer';
-  static String domain = 'https://9bd4-171-4-223-72.ngrok.io';
-  //static String domain = 'http://10.0.2.2';//Edit for boom computer
+  static String domain = 'https://321d-171-4-223-72.ngrok.io'; //window use ngrok
+  //static String domain = 'http://10.0.2.2';//mac os
 
 //  Route
 
@@ -15,6 +15,7 @@ class MyConstant {
   static String routeSearchService = '/searchservice';
   static String routeSubmitService = '/submitservice';
   static String routeEditProfileCustomer = '/editprofilecustomer';
+  static String routeEditProfileTechnician = '/editprofiletechnician';
   static String routeShowBookingCustomer = '/showbookingcustomer';
   
 
