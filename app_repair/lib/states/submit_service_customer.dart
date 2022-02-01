@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:app_repair/utility/my_dialog.dart';
@@ -17,12 +16,14 @@ import 'package:app_repair/models/user_model.dart';
 import 'package:app_repair/states/authen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_repair/backend/backend.dart';
 
 //import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 
 int id = 0;
 String firstname = "";
 String lastname = "";
+String textIdRepairer = "0";
 
 class SubmitService extends StatefulWidget {
   const SubmitService({Key? key}) : super(key: key);
@@ -35,18 +36,7 @@ class _SubmitServiceState extends State<SubmitService> {
   DateTime _dateTime = new DateTime.now();
   TimeOfDay _timeOfDay = new TimeOfDay.now();
 
-  final items = [
-    'ช่างกุญแจ',
-    'ช่างคอม',
-    'ช่างงานโครงสร้าง',
-    'ช่างซ่อมมือถือ',
-    'ช่างซ่อมรถ',
-    'ช่างทาสี',
-    'ช่างประปา',
-    'ช่างไฟฟ้า',
-    'ช่างวอลเปเปอร์',
-    'ช่างแอร์',
-  ];
+  final items = ['electrician', 'plumber', 'computerTechnician'];
 
   final formkey = GlobalKey<FormState>();
   String? value;
@@ -58,6 +48,246 @@ class _SubmitServiceState extends State<SubmitService> {
   String textAddress = "";
 
   List<String> nameFileArr = ['', '', '', ''];
+  // boom add  matchJobOrder
+  matchJobOrder(String idRepairer) async {
+    String LastRecord = await getLastRecord("table_match_job", "orderMatch");
+    //print(LastRecord);
+    int numLastRecord = int.parse(LastRecord);
+    matchJob(
+        id.toString(),
+        idRepairer,
+        SetIdJob(
+            id.toString(),
+            idRepairer,
+            _dateTime.year.toString(),
+            _dateTime.month.toString(),
+            _dateTime.day.toString(),
+            _timeOfDay.hour.toString(),
+            _timeOfDay.minute.toString()),
+        (numLastRecord + 1).toString());
+  }
+
+  //boom add insertStatusOrder
+  insertStatusOrder(String IdJob, String dateStart, String dateEnd,
+      String statusWork, String orderStartDate, String orderEndDate) async {
+    String LastRecondStatus = await getLastRecord("jobstatus", "order_job");
+    int numLastRecondStatus = int.parse(LastRecondStatus);
+    statusInsert(IdJob, dateStart, dateEnd, statusWork, orderStartDate,
+        orderEndDate, (numLastRecondStatus + 1).toString());
+  }
+
+  // boom add updateStatus
+  Future<String> updateRecord(String tableName, String typeName,
+      String valueName, dataTypeConditionName, valueCondtionName) async {
+    print("=getUpdateRecord=");
+    var url = '${MyConstant.domain}/repairer_app/UpdateDataMySql1.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {
+      'table': tableName,
+      'dataType': typeName,
+      'dataValue': valueName,
+      'dataTypeCondtion': dataTypeConditionName,
+      'valueConditon': valueCondtionName
+    };
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print(text);
+    return text;
+  }
+
+  // boom add update status
+  updateStatus(String status, String idJob) {
+    updateRecord("jobstatus", "status_work", status, "id_job", idJob);
+  }
+
+  //
+  //boom add update date_start
+  updateDateStart(String date_start, String idJob) {
+    updateRecord("jobstatus", "date_start", date_start, "id_job", idJob);
+  }
+
+  // boom add update date_end
+  updateDateEnd(String date_end, String idJob) {
+    updateRecord("jobstatus", "date_end", date_end, "id_job", idJob);
+  }
+
+  //boom add update orderStart_date
+  updateOrderStartDate(String orderStart_date, String idJob) {
+    updateRecord(
+        "jobstatus", "orderStart_date", orderStart_date, "id_job", idJob);
+  }
+
+  //boom add update orderEnd_date
+  updateOrderEndDate(String orderEnd_date, String idJob) {
+    updateRecord("jobstatus", "orderEnd_date", orderEnd_date, "id_job", idJob);
+  }
+
+  //boom add delete
+  Future<String> deleteRecord(
+      String tableName, String typeName, String valueName) async {
+    print("=getdeleteRecord=");
+    var url = '${MyConstant.domain}/repairer_app/deleteDataMySql1.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {
+      'tableName': tableName,
+      'typeName': typeName,
+      'valueName': valueName
+    };
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print(text);
+    return text;
+  }
+
+  // boom add get last record
+  Future<String> getLastRecord(String tableName, String getLastRecond) async {
+    print("=getLastRecord=");
+    var url = '${MyConstant.domain}/repairer_app/getLastRecond.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {'table_name': tableName, 'get_recond': getLastRecond};
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print("getLastRecord:: $text");
+    return text;
+  }
+
+  // boom add create status update
+  Future<String> jobStatus(String idJob) async {
+    //print("=jobStatus=");
+    //url where php
+    var url = '${MyConstant.domain}/repairer_app/job_status.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {'id_job': idJob};
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    //print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    //print(text);
+    return text;
+  }
+
+  // boom add create status insert
+  Future<String> statusInsert(
+      String IdJob,
+      String dateStart,
+      String dateEnd,
+      String statusWork,
+      String orderStartDate,
+      String orderEndDate,
+      String orderJob) async {
+    //url where php
+    var url = '${MyConstant.domain}/repairer_app/statusInsert.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {
+      'id_job': IdJob,
+      'date_start': dateStart,
+      'date_end': dateEnd,
+      'status_work': statusWork,
+      'orderStart_date': orderStartDate,
+      'orderEnd_date': orderEndDate,
+      'order_job': orderJob
+    };
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    //print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print(text);
+    return text;
+  }
+
+  //boom add create idJob
+  SetIdJob(String idCustomer, String idRepairer, String year, String month,
+      String day, String hour, String min) {
+    print("$idCustomer$idRepairer$year$month$day$hour$min");
+    return "$idCustomer$idRepairer$year$month$day$hour$min";
+  }
+
+//boom add example find repairer app
+  Future<String> findRepairMatch(
+      String date, String value, String lat, String lng, String id) async {
+    //String matchStatus = "non match";
+
+    //url where php
+    var url = '${MyConstant.domain}/repairer_app/matchRepairer.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {
+      'date': date,
+      'typeRepairer': value,
+      'lat': lat,
+      'lng': lng,
+      'id': id
+    };
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+    //print(await http.read(Uri.parse(url)));
+
+    // check value
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print(text);
+    textIdRepairer = text;
+    print("textIdRepairer:: $textIdRepairer");
+    return text;
+  }
+
+  //boom add example match job
+  Future<void> matchJob(String idCustomer, String idRepairer, String idJob,
+      String orderMatch) async {
+    //String matchStatus = "non match";
+    print("matchJob");
+    //url where php
+    var url = '${MyConstant.domain}/repairer_app/matchJob.php';
+    //print(await http.read(Uri.parse(url)));
+    //data send to php
+    var data = {
+      'idCustomer': idCustomer,
+      'idRepairer': idRepairer,
+      'idJob': idJob,
+      'orderMatch': orderMatch
+    };
+
+    // Starting Web API Call.
+    var response = await http.post(Uri.parse(url), body: json.encode(data));
+
+    // check value0
+
+    var textMessage = response.body;
+    String text = textMessage; // set string text
+    print(text);
+  }
 
 // boom add to receive data
   Future<String> _getDirPath() async {
@@ -149,7 +379,7 @@ class _SubmitServiceState extends State<SubmitService> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? keyValue = preferences.getString('id');
     id = int.parse(keyValue!);
-    firstname != preferences.getString('name');
+    firstname = preferences.getString('name')!;
     print(keyValue);
     print(id);
     print(firstname);
@@ -363,53 +593,7 @@ class _SubmitServiceState extends State<SubmitService> {
       child: ElevatedButton(
         style: MyConstant().myButtonStyle(),
         onPressed: () async {
-          if (formkey.currentState!.validate()) {
-            Navigator.pop(context);
-            print("submit");
-            print("Submit_textForm:: $textForm");
-            print("submit_textAddress:: $textAddress");
-            print(files[0]);
-            print(files[1]);
-            print(files[2]);
-            print(files[3]);
-            print(lat);
-            print(lng);
-            //final filePath = await FlutterAbsolutePath.getAbsolutePath(files![0]);
-            /*
-          String nameImage0 = "";
-          String nameImage1 = "";
-          String nameImage2 = "";
-          String nameImage3 = "";
-          print("nameImage0:: $nameImage0");*/
-
-            //url where php
-            var url = '${MyConstant.domain}/repairer_app/needFix.php';
-            //data send to php
-            var data = {
-              'date1': _dateTime.toString(),
-              'time1': _timeOfDay.toString(),
-              'typeRepairer': value,
-              'identifySymptoms': textForm,
-              'address1': textAddress,
-              'image0': nameFileArr[0],
-              'image1': nameFileArr[1],
-              'image2': nameFileArr[2],
-              'image3': nameFileArr[3],
-              'lat': lat,
-              'lng': lng,
-              'id': id
-            };
-
-            // Starting Web API Call.
-            var response =
-                await http.post(Uri.parse(url), body: json.encode(data));
-            //print(await http.read(Uri.parse(url)));
-
-            // check value
-            var textMessage = response.body;
-            String text = textMessage; // set string text
-            print(text);
-          }
+          if (formkey.currentState!.validate()) {}
         },
         child: Text('แจ้งซ่อม'),
       ),

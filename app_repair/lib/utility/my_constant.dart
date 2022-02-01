@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
 //  General
   static String appName = 'Repairer';
-  static String domain = 'https://321d-171-4-223-72.ngrok.io'; //window use ngrok
-  //static String domain = 'http://10.0.2.2';//mac os
+  static String domain = 'http://10.0.2.2'; // route to localhost
 
 //  Route
 
@@ -17,7 +16,6 @@ class MyConstant {
   static String routeEditProfileCustomer = '/editprofilecustomer';
   static String routeEditProfileTechnician = '/editprofiletechnician';
   static String routeShowBookingCustomer = '/showbookingcustomer';
-  
 
 // Images
   static String logo = 'images/logo.png';
@@ -41,12 +39,12 @@ class MyConstant {
         color: dark,
         fontWeight: FontWeight.bold,
       );
-   TextStyle h1BlackStyle() => TextStyle(
+  TextStyle h1BlackStyle() => TextStyle(
         fontSize: 24,
-        color:Colors.black,
+        color: Colors.black,
         fontWeight: FontWeight.bold,
       );
-  
+
   TextStyle h2Style() => TextStyle(
         fontSize: 18,
         color: dark,
@@ -80,7 +78,7 @@ class MyConstant {
         color: Colors.black,
         fontWeight: FontWeight.normal,
       );
-      
+
   TextStyle h3GrayStyle() => TextStyle(
         fontSize: 12,
         color: Colors.grey,

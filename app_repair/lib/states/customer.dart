@@ -40,7 +40,7 @@ class _CustomerState extends State<Customer> {
     String apiGetUserWhereId =
         '${MyConstant.domain}/repairer_app/getUserWhereId.php?isAdd=true&id=$id';
     await Dio().get(apiGetUserWhereId).then((value) {
-      print('## value ==> $value');
+      //print('## value ==> $value');
       for (var item in json.decode(value.data)) {
         setState(() {
           userModel = UserModel.fromMap(item);

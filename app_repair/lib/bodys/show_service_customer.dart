@@ -87,8 +87,8 @@ class _ShowServiceCustomerState extends State<ShowServiceCustomer> {
       child: ElevatedButton(
         style: MyConstant().myButtonStyle(),
         onPressed: () =>
-            Navigator.pushNamed(context, MyConstant.routeSearchService),
-        child: Text('ค้นหาช่าง'),
+            Navigator.pushNamed(context, MyConstant.routeSubmitService),
+        child: Text('ระบุอาการ'),
       ),
     );
   }
@@ -102,7 +102,7 @@ Container buildTitle(String title) {
     margin: EdgeInsets.symmetric(vertical: 16),
     child: ShowTitle(
       title: title,
-      textStyle: MyConstant().h2Style(),
+      textStyle: MyConstant().h2BlackStyle(),
     ),
   );
 }

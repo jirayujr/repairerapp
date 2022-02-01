@@ -1,9 +1,14 @@
+import 'package:app_repair/backend/backend.dart';
 import 'package:app_repair/models/service_customer.dart';
+import 'package:app_repair/models/user_model.dart';
+import 'package:app_repair/states/submit_service_customer.dart';
 import 'package:app_repair/utility/my_constant.dart';
 import 'package:app_repair/widgets/show_title.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 class ShowDetailServiceCustomer extends StatefulWidget {
   final ServiceCustomer serviceCustomerModel;
@@ -23,32 +28,66 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
+
+
+
+  Future<Null> readDetailBooking() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? id = preferences.getString('id');
+    //print('## id login ==>$id');
+    //backend obj = new backend();
+    //nameWithBoom = await obj.showFirstName('$id');
+    //backend obj = new backend();
+    //nameWithBoom = await obj.showFirstName('$id');
+    //print(nameWithBoom);
+    //String name = await obj.showFirstName('$id');
+    //Text(name);
+  }
+
+  /*Future<void> getFirstName() async {
+    backend obj = new backend();
+    String text = await obj.showFirstName('1');
+    print('text:: $text');
+    setState(() {
+      nameWithBoom = text;
+    });
+    print("nameWithBoom:: $nameAddBoom");
+  }*/
+
   List<String> pathImages = [];
 
   @override
   void initState() {
+    readDetailBooking();
+    //getFirstName();
     // TODO: implement initState
-
+    //String text = nameWithBoom;
+    //print("======");
+    //print(nameWithBoom);
+    //print("=========");
     serviceCustomerModel = widget.serviceCustomerModel;
-    //print('## ชื่อที่ต้องการโชว์ ==> ${serviceCustomerModel!.firstname}');
-    //nameController.text =
-      //  serviceCustomerModel!.firstname + '  ' + serviceCustomerModel!.lastname;
-    print('## images form mySQL ==> ${serviceCustomerModel?.image}');
-    //convertStirngToArray();
-    dateController.text =
-        serviceCustomerModel!.date1 ;
-    
+    dateController.text = serviceCustomerModel!.date1;
     detailController.text = serviceCustomerModel!.identifySymptoms;
     addressController.text = serviceCustomerModel!.address1;
-    //phoneController.text = serviceCustomerModel!.phone;
+    //nameAddBoom.text = nameWithBoom;
+    //print("+++++++++++++++++");
+    //print(nameAddBoom.text.toString());
   }
 
-  // void convertStirngToArray() {
-  //   String string = serviceCustomerModel.images;
-  // }
+  /* _getImagesPath() async {
+    backend obj = new backend();
+    return await obj.showFirstName('1');
+  }*/
 
   @override
   Widget build(BuildContext context) {
+    print('Fetching user order...');
+    /*String imagesPath = "";
+    _getImagesPath().then((path) {
+      imagesPath = path;
+      print("get::$imagesPath"); //prints correct path
+    });
+    print("get::$imagesPath"); //prints correct path*/
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange.shade100,
@@ -114,19 +153,20 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
                     ],
                   ),
                   buildCancelButton(constraints),
-        
                 ],
               ),
             ),
           ),
         ));
   }
+
   Container buildCancelButton(BoxConstraints constraints) {
     return Container(
       width: constraints.maxHeight * 0.75,
       child: ElevatedButton(
         style: MyConstant().myButtonStyle(),
-        onPressed: () {print('##  ==> click cancel');
+        onPressed: () {
+          print('##  ==> click cancel');
         },
         child: Text('ยกเลิก'),
       ),
@@ -191,7 +231,7 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
               Text(
                 detailController.text,
                 style: MyConstant().h4Style(),
-              )
+              ),
             ],
           ),
         ),
@@ -219,10 +259,14 @@ class _ShowDetailServiceState extends State<ShowDetailServiceCustomer> {
                     'ผู้รับบริการ ',
                     style: MyConstant().h3GrayStyle(),
                   ),
+                  Text(
+                    '',
+                    style: MyConstant().h3GrayStyle(),
+                  ),
                 ],
               ),
               Text(
-                nameController.text,
+                '',
                 style: MyConstant().h4Style(),
               )
             ],

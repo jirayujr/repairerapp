@@ -6,7 +6,7 @@ import 'package:app_repair/models/service_customer.dart';
 import 'package:app_repair/utility/my_constant.dart';
 import 'package:app_repair/widgets/show_progress.dart';
 import 'package:app_repair/widgets/show_title.dart';
-
+import 'package:app_repair/backend/backend.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,12 +18,52 @@ class ShowBookingCustomer extends StatefulWidget {
   _ShowBookingCustomerState createState() => _ShowBookingCustomerState();
 }
 
-bool load = true;
-bool? haveData;
-List<ServiceCustomer> ServiceCustomerModels = [];
-
 class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
+  bool load = true;
+  bool? haveData;
+  List<ServiceCustomer> servicecustomerModels = [];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    readMybooking();
+  }
+
+  Future<Null> readMybooking() async {
+    if (servicecustomerModels.length != 0) {
+      servicecustomerModels.clear();
+    } else {}
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? id = preferences.getString('id');
+
+    String showMyBooking =
+        '${MyConstant.domain}/repairer_app/getServiceWhereUser.php?isAdd=true&id=$id';
+    await Dio().get(showMyBooking).then((value) {
+      //print('==>$value');
+
+      if (value.toString() == 'null') {
+        // No Data
+        setState(() {
+          load = false;
+          haveData = false;
+        });
+      } else {
+        // Have Data
+        for (var item in json.decode(value.data)) {
+          ServiceCustomer model = ServiceCustomer.fromMap(item);
+          print('detail ==>> ${model.identifySymptoms}');
+
+          setState(() {
+            load = false;
+            haveData = true;
+            servicecustomerModels.add(model);
+          });
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +91,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
 
   ListView buildListView(BoxConstraints constraints) {
     return ListView.builder(
-      itemCount: ServiceCustomerModels.length,
+      itemCount: servicecustomerModels.length,
       itemBuilder: (context, index) => Card(
         child: Row(
           children: [
@@ -75,8 +115,7 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'บริการ' +
-                              ServiceCustomerModels[index].typeRepairer,
+                           servicecustomerModels[index].typeRepairer,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -90,7 +129,10 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      ShowDetailServiceCustomer(serviceCustomerModel: ServiceCustomerModels[index],),
+                                      ShowDetailServiceCustomer(
+                                    serviceCustomerModel:
+                                        servicecustomerModels[index],
+                                  ),
                                 ));
                           },
                           icon:
@@ -102,11 +144,17 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
                       height: 5,
                     ),
                     Text(
-                      ServiceCustomerModels[index].date1 +
+                      servicecustomerModels[index].date1 +
                           ',' +
-                          ServiceCustomerModels[index].identifySymptoms,
+                          servicecustomerModels[index].identifySymptoms,
+                      style: MyConstant().h4Style(),
+                    ),
+                    Text(
+                      'สถานะ'+
+                           
+                          servicecustomerModels[index].identifySymptoms,
                       style: MyConstant().h3BlackStyle(),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -116,6 +164,4 @@ class _ShowBookingCustomerState extends State<ShowBookingCustomer> {
       ),
     );
   }
-
-  
 }
